@@ -15,7 +15,6 @@ import {
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
 
-
 const navItems = [
   {
     icon: <GridIcon />,
@@ -353,7 +352,6 @@ const AppSidebar = () => {
             </div>
           </div>
         </nav>
-   
       </div>
     </aside>
   );

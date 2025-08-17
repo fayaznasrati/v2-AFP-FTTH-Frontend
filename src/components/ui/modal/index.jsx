@@ -1,4 +1,5 @@
 import { useRef, useEffect } from "react";
+import { InputElement } from "../../ftth_ui_components/inputs";
 
 export const Modal = ({
   isOpen,
@@ -45,10 +46,10 @@ export const Modal = ({
     : "relative w-full rounded-3xl bg-white  dark:bg-gray-900";
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center overflow-y-auto modal z-99999">
+    <div className="fixed inset-0 flex items-center justify-center overflow-y-auto modal z-99999 ">
       {!isFullscreen && (
         <div
-          className="fixed inset-0 h-full w-full bg-gray-400/50 backdrop-blur-[32px]"
+          className="fixed inset-0 h-full w-full bg-white/50 dark:bg-gray-900/50 backdrop-blur-[2px]"
           onClick={onClose}
         ></div>
       )}
@@ -78,7 +79,10 @@ export const Modal = ({
             </svg>
           </button>
         )}
-        <div>{children}</div>
+        <div>
+          <InputElement />
+        </div>
+        {/* <div>{children}</div> */}
       </div>
     </div>
   );

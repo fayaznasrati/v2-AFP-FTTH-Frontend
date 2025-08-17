@@ -8,6 +8,28 @@ layer(base);
 @theme {
   --font-*: initial;
   --font-outfit: Outfit, sans-serif;
+  --color-primary1: #1c958a;
+  --color-primary2: #bbd58a;
+  --color-primary3: #1f625c;
+  --color-primary4: #f2f4f7;
+  --color-primary5: #d0d5dd;
+  --color-primary6: #f9fafb;
+  --color-primary7: #f2f4f7;
+  --color-neutral1: #1d1d1d;
+  --color-neutral2: #cacaca;
+  --color-neutral3: #98a2b3;
+  --color-neutral4: #646464;
+  --color-neutral5: #ff0021;
+  --color-neutral6: #d0d5dd;
+  --color-neutral7: #04b857;
+  --color-neutral8: #5fd122;
+  --color-neutral9: #404040;
+  --color-semantic1: #fd8d3d;
+  --color-semantic2: #d8c38a;
+  --color-semantic3: #ec6666;
+  --color-semantic4: #e1e3ed;
+  --color-semantic5: #57f073;
+  --color-semantic6: #404040;
 
   --breakpoint-*: initial;
   --breakpoint-2xsm: 375px;
@@ -187,6 +209,29 @@ layer(base);
   }
   body {
     @apply relative font-normal font-outfit z-1 bg-gray-50;
+  }
+}
+
+@layer utilities {
+  .glow-danger {
+    border-color: rgba(239, 68, 68, 1); /* Tailwind red-500 */
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.8), 0 0 20px rgba(239, 68, 68, 0.6),
+      0 0 40px rgba(239, 68, 68, 0.4);
+    animation: dangerPulse 1.5s infinite ease-in-out;
+  }
+
+  @keyframes dangerPulse {
+    0% {
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.8),
+        0 0 20px rgba(239, 68, 68, 0.6);
+    }
+    50% {
+      box-shadow: 0 0 25px rgba(239, 68, 68, 1), 0 0 50px rgba(239, 68, 68, 0.9);
+    }
+    100% {
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.8),
+        0 0 20px rgba(239, 68, 68, 0.6);
+    }
   }
 }
 
