@@ -1,23 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
 /**
- * SingleSelect Component
+ * MultiSelect Component
  * Props:
  * - items: array of objects
  * - valueKey: property name to use as value (must be unique)
  * - getLabel: function(item) => string, defines how to display the label
  * - placeholder: string
- * - initialSelected: single selected item (object or null)
- * - onChange: callback(selectedItem) => void
+ * - initialSelected: array of selected items
+ * - onChange: callback(selectedItems) => void
  * - className: optional Tailwind classes
  */
-export default function SingleSelect({
+export default function MultiSelect({
   items = [],
   valueKey = "value",
   getLabel = (item) => item.label || "",
   placeholder = "Select...",
-  initialSelected = null,
+  initialSelected = [],
   onChange = () => {},
   className = "",
   disabled = false,
@@ -25,7 +25,7 @@ export default function SingleSelect({
   error = false,
   hint,
 }) {
-  const [selectedItem, setSelectedItem] = useState(initialSelected);
+  const [selectedItems, setSelectedItems] = useState(initialSelected);
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -45,21 +45,28 @@ export default function SingleSelect({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Filter items by search
-  const filteredItems = items.filter((item) =>
-    getLabel(item).toLowerCase().includes(inputValue.toLowerCase())
+  // Filter items by input and remove already selected
+  const filteredItems = items.filter(
+    (item) =>
+      !selectedItems.some((s) => s[valueKey] === item[valueKey]) &&
+      getLabel(item).toLowerCase().includes(inputValue.toLowerCase())
   );
 
-  const selectItem = (item) => {
-    setSelectedItem(item);
-    onChange(item);
+  const toggleSelectItem = (item) => {
+    const newSelected = [...selectedItems, item];
+    setSelectedItems(newSelected);
+    onChange(newSelected);
     setInputValue("");
-    setIsOpen(false);
+    setIsOpen(true);
+    setHighlightedIndex(0);
   };
 
-  const clearSelection = () => {
-    setSelectedItem(null);
-    onChange(null);
+  const removeItem = (item) => {
+    const newSelected = selectedItems.filter(
+      (s) => s[valueKey] !== item[valueKey]
+    );
+    setSelectedItems(newSelected);
+    onChange(newSelected);
   };
 
   // Keyboard navigation
@@ -77,9 +84,13 @@ export default function SingleSelect({
     } else if (e.key === "Enter") {
       e.preventDefault();
       const item = filteredItems[highlightedIndex];
-      if (item) selectItem(item);
-    } else if (e.key === "Backspace" && !inputValue && selectedItem) {
-      clearSelection();
+      if (item) toggleSelectItem(item);
+    } else if (
+      e.key === "Backspace" &&
+      inputValue === "" &&
+      selectedItems.length
+    ) {
+      removeItem(selectedItems[selectedItems.length - 1]);
     }
   };
 
@@ -101,7 +112,7 @@ export default function SingleSelect({
 
   return (
     <div
-      className={`relative w-full ${className} rounded-md`}
+      className={`relative w-full ${className}  rounded-md   `}
       ref={containerRef}
     >
       <div
@@ -112,25 +123,28 @@ export default function SingleSelect({
           }
         }}
       >
-        {selectedItem && (
-          <span className="flex items-center text-[12px] dark:text-white bg-primary2/20 text-gray-800 px-2 py-[2px] rounded">
-            {getLabel(selectedItem)}
+        {selectedItems.map((item) => (
+          <span
+            key={item[valueKey]}
+            className="flex items-center text-[12px] dark:text-white bg-primary2/20 text-gray-800 px-2 py-[2px] rounded"
+          >
+            {getLabel(item)}
             <button
               disabled={disabled}
               className="ml-1 text-gray-500 dark:text-white hover:text-gray-800"
               onClick={(e) => {
                 e.stopPropagation();
-                clearSelection();
+                removeItem(item);
               }}
             >
               &times;
             </button>
           </span>
-        )}
+        ))}
 
         <input
-          className={`flex-1 outline-none min-w-[120px] appearance-none placeholder:text-gray-400 dark:text-white/80`}
-          placeholder={!selectedItem ? placeholder : ""}
+          className={`flex-1  outline-none min-w-[120px] appearance-none placeholder:text-gray-400 dark:text-white/80  `}
+          placeholder={selectedItems.length === 0 ? placeholder : ""}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onFocus={() => setIsOpen(true)}
@@ -145,30 +159,38 @@ export default function SingleSelect({
             error
               ? "border-semantic3 ring-4 ring-semantic3/12"
               : "border-primary2 ring-4 ring-primary2/12"
-          } bg-white rounded shadow max-h-60 overflow-auto`}
+          }   bg-white  rounded shadow max-h-60 overflow-auto`}
         >
           {filteredItems.length > 0 ? (
             filteredItems.map((item, index) => (
               <li
                 key={item[valueKey]}
-                className={`text-[12px] dark:text-white px-3 py-2 cursor-pointer rounded-md transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700 ${
-                  index === highlightedIndex
-                    ? "bg-gray-100 dark:bg-gray-700"
-                    : ""
+                className={`text-[12px] dark:text-white px-3  py-2 cursor-pointer rounded-md transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700 ${
+                  index === highlightedIndex ? "" : ""
                 }`}
                 onMouseEnter={() => setHighlightedIndex(index)}
-                onClick={() => selectItem(item)}
+                onClick={() => toggleSelectItem(item)}
               >
                 {getLabel(item)}
               </li>
             ))
-          ) : (
+          ) : filteredItems.length === 0 &&
+            !inputValue &&
+            selectedItems.length === 0 ? (
             <p className="px-3 py-2 text-[12px] dark:text-white">
-              {inputValue
-                ? `No results found for "${inputValue}"`
-                : "No Items Available"}
+              No Items Available
             </p>
-          )}
+          ) : filteredItems.length === 0 && inputValue ? (
+            <p className="px-3 py-2 text-[12px] dark:text-white">
+              No results found for "{inputValue}"
+            </p>
+          ) : filteredItems.length === 0 &&
+            !inputValue &&
+            selectedItems.length > 0 ? (
+            <p className="px-3 py-2 text-[12px] dark:text-white">
+              No More Items Available
+            </p>
+          ) : null}
         </ul>
       )}
 
@@ -185,7 +207,6 @@ export default function SingleSelect({
           {hint}
         </p>
       )}
-
       <div className="absolute right-2 top-[35%] transform -translate-y-1/2">
         {isOpen ? (
           <FaAngleUp className="text-primary1 dark:text-white" />
