@@ -1,12 +1,10 @@
 import { Listbox } from '@headlessui/react'
-import { SelectElement } from '../selectElements';
+// import { SelectElement } from '../selectElements';
 
 function LimitSelect({ value, onChange, options }) {
   return (
     <>
-    <SelectElement value={value} options={options} onChange={onChange}
-     
-    />
+   
     <Listbox value={value} onChange={onChange}>
       <div className="relative">
         <Listbox.Button className="relative w-full cursor-pointer rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 py-[6px] pl-3 pr-8 text-left shadow-sm focus:outline-none focus:ring-2 focus:ring-primary1 sm:text-sm">
