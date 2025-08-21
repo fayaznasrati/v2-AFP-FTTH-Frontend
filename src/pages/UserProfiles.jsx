@@ -7,10 +7,16 @@ import MultiSelect from "../components/ftth_ui_components/MultiSelectElement";
 import { useState } from "react";
 import SingleSelect from "../components/ftth_ui_components/selectElements";
 import AyncMultiSelect from "../components/ftth_ui_components/asyncMultiSelect";
+import AsyncSingleSelect from "../components/ftth_ui_components/asyncSelect";
+import Button from "../components/ftth_ui_components/Button";
+import { FaPlus, FaTrash } from "react-icons/fa";
+import Checkbox from "../components/ftth_ui_components/Checkbox";
+import Switch from "../components/ftth_ui_components/Switch";
 
 export default function UserProfiles() {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
 
   const usersFromDB = [
     {
@@ -58,6 +64,19 @@ export default function UserProfiles() {
         // error={true}
         hint={"This is an error message"}
       />
+      <AsyncSingleSelect
+        items={usersFromDB}
+        valueKey="lastName"
+        getLabel={(item) =>
+          `${item.firstName} ${item.lastName} (${item.address.city})`
+        }
+        placeholder="Select users async..."
+        onChange={setSelectedUsers}
+        isLoading={false}
+        // disabled={true}
+        // error={true}
+        hint={"This is an error message"}
+      />
       <AyncMultiSelect
         items={usersFromDB}
         valueKey="lastName"
@@ -79,6 +98,69 @@ export default function UserProfiles() {
       <div className="mt-4">
         <strong>Selected:</strong> {selectedUsers?.firstName}
       </div>
+
+      <Button label="Add Item" icon={<FaPlus />} onClick={() => {}} />
+
+      <Button
+        label="Delete"
+        icon={<FaTrash />}
+        iconPosition="left"
+        error
+        onClick={() => {}}
+        isLoading={true}
+      />
+
+      <Button
+        label="Save"
+        isLoading={false}
+        width="52px"
+        isFillOnHover={true}
+        bg="bg-primary1"
+      />
+      <Button
+        label="continue"
+        isLoading={false}
+        width="52px"
+        bg="bg-primary2"
+
+        // isFillOnHover={true}
+        // bg="bg-primary1"
+      />
+      <Button
+        label="continue"
+        isLoading={false}
+        width="52px"
+        // bg="bg-primary2"
+        success
+        // isFillOnHover={true}
+        // bg="bg-primary1"
+      />
+      <Checkbox
+        value={isChecked}
+        variant="filled"
+        onChange={(e) => {
+          console.log("from onchange", e);
+          setIsChecked(e);
+        }}
+        size="lg"
+      />
+
+      <Switch
+        color="red"
+        size="lg"
+        value={isChecked}
+        onChange={(e) => {
+          console.log("from onchange", e);
+          setIsChecked(e);
+        }}
+      />
+      <Switch
+        color="green"
+        size="sm"
+        value={isChecked}
+        onChange={(val) => console.log(val)}
+      />
+      <Switch color="primary1" size="md" value={isChecked} />
       <PageBreadcrumb pageTitle="Profile" />
       <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6">
         <h3 className="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-7">
