@@ -22,7 +22,7 @@ export default function DemographicCard() {
             Customers Demographic
           </h3>
           <p className="mt-1 text-gray-500 text-theme-sm dark:text-gray-400">
-            Number of customer based on country
+            Number of customer based on province
           </p>
         </div>
         <div className="relative inline-block">
@@ -54,29 +54,29 @@ export default function DemographicCard() {
           id="mapOne"
           className="mapOne map-btn -mx-4 -my-6 h-[212px] w-[252px] 2xsm:w-[307px] xsm:w-[358px] sm:-mx-6 md:w-[668px] lg:w-[634px] xl:w-[393px] 2xl:w-[554px]"
         >
-          <CountryMap />
+          <CountryMap mapColor="#FFCC00" />
         </div>
       </div>
 
       <div className="space-y-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="items-center w-full rounded-full max-w-8">
-              <img src="./images/country/country-01.svg" alt="usa" />
+            <div className="items-center w-full rounded-full  max-w-8">
+              <img src="./images/country/AFG.svg" className="w-[30px] h-[30px]"  alt="usa" />
             </div>
             <div>
-              <p className="font-semibold text-gray-800 text-theme-sm dark:text-white/90">
-                USA
+              <p className="font-semibold text-gray-800 text-theme-sm w-full dark:text-white/90">
+                Kunduz
               </p>
-              <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
-                2,379 Customers
+              <span className="block text-gray-500 text-theme-xs w-[200px] dark:text-gray-400">
+                800 Customers
               </span>
             </div>
           </div>
 
           <div className="flex w-full max-w-[140px] items-center gap-3">
             <div className="relative block h-2 w-full max-w-[100px] rounded-sm bg-gray-200 dark:bg-gray-800">
-              <div className="absolute left-0 top-0 flex h-full w-[79%] items-center justify-center rounded-sm bg-brand-500 text-xs font-medium text-white"></div>
+              <div className="absolute left-0 top-0 flex h-full w-[79%] items-center justify-center rounded-sm bg-primary1 text-xs font-medium text-white"></div>
             </div>
             <p className="font-medium text-gray-800 text-theme-sm dark:text-white/90">
               79%
@@ -85,23 +85,23 @@ export default function DemographicCard() {
         </div>
 
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex w-[300px] items-center gap-3">
             <div className="items-center w-full rounded-full max-w-8">
-              <img src="./images/country/country-02.svg" alt="france" />
+              <img src="./images/country/AFG.svg" className="w-[30px] h-[30px]" alt="france" />
             </div>
             <div>
               <p className="font-semibold text-gray-800 text-theme-sm dark:text-white/90">
-                France
+                Takhar
               </p>
               <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
-                589 Customers
+                200 Customers
               </span>
             </div>
           </div>
 
           <div className="flex w-full max-w-[140px] items-center gap-3">
             <div className="relative block h-2 w-full max-w-[100px] rounded-sm bg-gray-200 dark:bg-gray-800">
-              <div className="absolute left-0 top-0 flex h-full w-[23%] items-center justify-center rounded-sm bg-brand-500 text-xs font-medium text-white"></div>
+              <div className="absolute left-0 top-0 flex h-full w-[23%] items-center justify-center rounded-sm bg-primary1 text-xs font-medium text-white"></div>
             </div>
             <p className="font-medium text-gray-800 text-theme-sm dark:text-white/90">
               23%

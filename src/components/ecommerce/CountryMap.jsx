@@ -1,89 +1,91 @@
-// react plugin for creating vector maps
 import { VectorMap } from "@react-jvectormap/core";
 import { worldMill } from "@react-jvectormap/world";
 
-const CountryMap = ({ mapColor }) => {
+const AfghanistanProvincesMap = ({ mapColor }) => {
   return (
     <VectorMap
       map={worldMill}
       backgroundColor="transparent"
-      markerStyle={{
-        initial: {
-          fill: "#465FFF",
-          r: 4, // Custom radius for markers
-        },
-      }}
-      markersSelectable={true}
-      markers={[
-        {
-          latLng: [37.2580397, -104.657039],
-          name: "United States",
-          style: {
-            fill: "#465FFF",
-            borderWidth: 1,
-            borderColor: "white",
-            stroke: "#383f47",
-          },
-        },
-        {
-          latLng: [20.7504374, 73.7276105],
-          name: "India",
-          style: { fill: "#465FFF", borderWidth: 1, borderColor: "white" },
-        },
-        {
-          latLng: [53.613, -11.6368],
-          name: "United Kingdom",
-          style: { fill: "#465FFF", borderWidth: 1, borderColor: "white" },
-        },
-        {
-          latLng: [-25.0304388, 115.2092761],
-          name: "Sweden",
-          style: {
-            fill: "#465FFF",
-            borderWidth: 1,
-            borderColor: "white",
-            strokeOpacity: 0,
-          },
-        },
-      ]}
       zoomOnScroll={false}
+      zoomAnimate={true}
       zoomMax={12}
       zoomMin={1}
-      zoomAnimate={true}
       zoomStep={1.5}
+      focusOn={{
+        region: "AF",
+        animate: true,
+        scale: 5, 
+      }}
+      selectedRegions={["AF"]}
       regionStyle={{
         initial: {
-          fill: mapColor || "#D0D5DD",
-          fillOpacity: 1,
-          fontFamily: "Outfit",
+          fill: mapColor || "#20988E",
+          fillOpacity: 0,
           stroke: "none",
-          strokeWidth: 0,
-          strokeOpacity: 0,
         },
         hover: {
           fillOpacity: 0.7,
           cursor: "pointer",
-          fill: "#465fff",
-          stroke: "none",
+          fill: "#20988E",
         },
         selected: {
-          fill: "#465FFF",
+          fill: "#20988E",
         },
-        selectedHover: {},
       }}
       regionLabelStyle={{
         initial: {
-          fill: "#35373e",
+          fill: "#20988E",
           fontWeight: 500,
           fontSize: "13px",
           stroke: "none",
         },
-        hover: {},
-        selected: {},
-        selectedHover: {},
+      }}
+      markers={[
+        {
+          latLng: [36.7361, 69.5345],
+          name: "Takhar",
+          style: {
+            fill: "#CD0202",
+            stroke: "white",
+            strokeWidth: 1,
+          },
+        },
+        {
+          latLng: [37.1287, 70.5780],
+          name: "Badakhshan",
+          style: {
+            fill: "#20988E",
+            stroke: "white",
+            strokeWidth: 1,
+          },
+        },
+        {
+          latLng: [36.1307, 68.7083],
+          name: "Baghlan",
+          style: {
+            fill: "#FF5733",
+            stroke: "white",
+            strokeWidth: 1,
+          },
+        },
+        {
+          latLng: [36.7280, 68.8681],
+          name: "Kunduz",
+          style: {
+            fill: "#C6DA89",
+            stroke: "white",
+            strokeWidth: 1,
+          },
+        },
+      ]}
+      markerStyle={{
+        initial: {
+          fill: "#20988E",
+          r: 4,
+        },
       }}
     />
   );
 };
 
-export default CountryMap;
+export default AfghanistanProvincesMap;

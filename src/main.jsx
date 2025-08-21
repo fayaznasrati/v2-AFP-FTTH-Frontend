@@ -12,7 +12,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/reactQuery.js";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ToastContainer } from "react-toastify";
-// import { NetworkStatusModal } from "./utils/networkListener.jsx";
+
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -31,7 +31,6 @@ createRoot(document.getElementById("root")).render(
             pauseOnHover
           />
           <AppWrapper>
-            {/* <NetworkStatusModal /> */}
             <App />
           </AppWrapper>
         </ThemeProvider>

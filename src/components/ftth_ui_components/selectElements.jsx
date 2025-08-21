@@ -43,17 +43,17 @@ export const SelectElement = ({
   const [highlightedIndex, setHighlightedIndex] = useState(null);
   const wrapperRef = useRef(null);
 
-  // Update filtered options when search changes
+
   useEffect(() => {
     const filtered = options.filter((option) =>
-      option.label.toLowerCase().includes(search.toLowerCase())
+      option?.label?.toLowerCase().includes(search.toLowerCase())
     );
     setFilteredOptions(filtered);
-    // Don't auto-highlight the first option
+
     setHighlightedIndex(null);
   }, [search, options]);
 
-  // Close dropdown on outside click
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
@@ -64,7 +64,7 @@ export const SelectElement = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Keyboard navigation
+
   const handleKeyDown = (e) => {
     if (!openDropDown) return;
 
