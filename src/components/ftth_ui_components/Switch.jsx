@@ -11,17 +11,17 @@ function Switch({
     sm: {
       track: "w-10 h-5",
       thumb: "w-4 h-4",
-      translate: "translate-x-5", // enough to reach right edge
+      translate: "translate-x-[23px]", // enough to reach right edge
     },
     md: {
       track: "w-12 h-6",
       thumb: "w-5 h-5",
-      translate: "translate-x-6",
+      translate: "translate-x-[26px]",
     },
     lg: {
       track: "w-14 h-8",
       thumb: "w-7 h-7",
-      translate: "translate-x-7",
+      translate: "translate-x-[26px]",
     },
   };
 
@@ -62,7 +62,7 @@ function Switch({
     >
       <span
         className={`absolute top-1/2 -translate-y-1/2 left-0 ${thumb} rounded-full shadow-md transform transition-transform duration-300 ease-in-out
-          ${value ? `${translate} bg-white` : "translate-x-0 bg-primary1"}
+          ${value ? `${translate} bg-white` : "translate-x-[2px] bg-primary1"}
         `}
       />
     </button>
