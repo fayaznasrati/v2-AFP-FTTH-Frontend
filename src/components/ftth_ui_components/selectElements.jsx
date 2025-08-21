@@ -15,7 +15,7 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 export default function SingleSelect({
   items = [],
   valueKey = "value",
-  getLabel = (item) => item.label || "",
+  getLabel = (item) => item?.label || "",
   placeholder = "Select...",
   initialSelected = null,
   onChange = () => {},
@@ -26,67 +26,86 @@ export default function SingleSelect({
   hint,
 }) {
   const [selectedItem, setSelectedItem] = useState(initialSelected);
+  const [filteredOptions, setFilteredOptions] = useState(items);
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [highlightedIndex, setHighlightedIndex] = useState(0);
+
   const containerRef = useRef();
 
-
+  // 🔹 Update filtered options whenever inputValue or items change
   useEffect(() => {
-    const filtered = options.filter((option) =>
-      option?.label?.toLowerCase().includes(search.toLowerCase())
+    const filtered = items.filter((item) =>
+      getLabel(item).toLowerCase().includes(inputValue.toLowerCase())
     );
     setFilteredOptions(filtered);
+    setHighlightedIndex(filtered.length > 0 ? 0 : -1);
+  }, [inputValue, items, getLabel]);
 
-    setHighlightedIndex(null);
-  }, [search, options]);
-
-
+  // 🔹 Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
-        setOpenDropdown(false);
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setIsOpen(false);
       }
-    }
+    };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-
+  // 🔹 Keyboard navigation
   const handleKeyDown = (e) => {
     if (!isOpen) return;
 
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      setHighlightedIndex((prev) => (prev + 1) % filteredItems.length);
+      setHighlightedIndex((prev) =>
+        prev < filteredOptions.length - 1 ? prev + 1 : 0
+      );
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      setHighlightedIndex(
-        (prev) => (prev - 1 + filteredItems.length) % filteredItems.length
+      setHighlightedIndex((prev) =>
+        prev > 0 ? prev - 1 : filteredOptions.length - 1
       );
     } else if (e.key === "Enter") {
       e.preventDefault();
-      const item = filteredItems[highlightedIndex];
+      const item = filteredOptions[highlightedIndex];
       if (item) selectItem(item);
     } else if (e.key === "Backspace" && !inputValue && selectedItem) {
       clearSelection();
     }
   };
 
+  // 🔹 Select item
+  const selectItem = (item) => {
+    setSelectedItem(item);
+    setInputValue("");
+    setIsOpen(false);
+    onChange(item);
+  };
+
+  // 🔹 Clear selection
+  const clearSelection = () => {
+    setSelectedItem(null);
+    setInputValue("");
+    onChange(null);
+  };
+
   let inputClasses = `flex flex-wrap items-center gap-1 py-2 px-3 dark:border-[#444] ${
-    error && "outline-hidden  ring-4 ring-semantic3/12 border-semantic3"
-  }  rounded-lg  bg-white border  cursor-text text-sm shadow-theme-xs ${
+    error && "outline-hidden ring-4 ring-semantic3/12 border-semantic3"
+  } rounded-lg bg-white border cursor-text text-sm shadow-theme-xs ${
     isOpen && !error
-      ? "outline-hidden  ring-4 ring-primary2/12 border border-primary2"
+      ? "outline-hidden ring-4 ring-primary2/12 border border-primary2"
       : isOpen && error
-      ? "outline-hidden  ring-4 ring-semantic3/12 border-semantic3"
+      ? "outline-hidden ring-4 ring-semantic3/12 border-semantic3"
       : isOpen && success
-      ? "outline-hidden  ring-4 ring-success-500/12 border-success-500"
+      ? "outline-hidden ring-4 ring-success-500/12 border-success-500"
       : "border-primary5"
-  }  transition-all duration-300  dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 ${className}`;
+  } transition-all duration-300 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 ${className}`;
 
   if (disabled) {
-    inputClasses += ` text-gray-500 border-gray-300 opacity-40 bg-gray-100 cursor-not-allowed dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700`;
+    inputClasses +=
+      " text-gray-500 border-gray-300 opacity-40 bg-gray-100 cursor-not-allowed dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700";
   }
 
   return (
@@ -94,12 +113,11 @@ export default function SingleSelect({
       className={`relative w-full ${className} rounded-md`}
       ref={containerRef}
     >
+      {/* Input area */}
       <div
         className={`${inputClasses}`}
         onClick={() => {
-          if (!disabled) {
-            setIsOpen(true);
-          }
+          if (!disabled) setIsOpen(true);
         }}
       >
         {selectedItem && (
@@ -119,7 +137,7 @@ export default function SingleSelect({
         )}
 
         <input
-          className={`flex-1 outline-none min-w-[120px] appearance-none placeholder:text-gray-400 dark:text-white/80`}
+          className="flex-1 outline-none min-w-[120px] appearance-none placeholder:text-gray-400 dark:text-white/80"
           placeholder={!selectedItem ? placeholder : ""}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
@@ -129,6 +147,7 @@ export default function SingleSelect({
         />
       </div>
 
+      {/* Dropdown options */}
       {isOpen && (
         <ul
           className={`absolute z-10 w-full mt-1 px-2 py-1 transition-all duration-100 border dark:bg-slate-900 ${
@@ -137,8 +156,8 @@ export default function SingleSelect({
               : "border-primary2 ring-4 ring-primary2/12"
           } bg-white rounded shadow max-h-60 overflow-auto`}
         >
-          {filteredItems.length > 0 ? (
-            filteredItems.map((item, index) => (
+          {filteredOptions.length > 0 ? (
+            filteredOptions.map((item, index) => (
               <li
                 key={item[valueKey]}
                 className={`text-[12px] dark:text-white px-3 py-2 cursor-pointer rounded-md transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700 ${
@@ -162,6 +181,7 @@ export default function SingleSelect({
         </ul>
       )}
 
+      {/* Hint message */}
       {hint && (
         <p
           className={`text-[12px] my-1 ${
@@ -176,6 +196,7 @@ export default function SingleSelect({
         </p>
       )}
 
+      {/* Toggle icon */}
       <div className="absolute right-2 top-[35%] transform -translate-y-1/2">
         {isOpen ? (
           <FaAngleUp className="text-primary1 dark:text-white" />
