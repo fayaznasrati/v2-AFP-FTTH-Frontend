@@ -14,6 +14,7 @@ import Checkbox from "../components/ftth_ui_components/Checkbox";
 import Switch from "../components/ftth_ui_components/Switch";
 
 export default function UserProfiles() {
+<<<<<<< HEAD
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -32,6 +33,12 @@ export default function UserProfiles() {
       lastName: "Davis",
       address: { city: "SF" },
     },
+=======
+  const options = [
+    { value: "option1", label: "Option 1" },
+    { value: "option2", label: "Option 2" },
+    { value: "option3", label: "Option 3" },
+>>>>>>> dd2ab542b2afe93490a7dbd3d905dc8100640a1f
   ];
   return (
     <>
@@ -171,6 +178,7 @@ export default function UserProfiles() {
           <UserInfoCard />
           <UserAddressCard />
         </div>
+    
       </div>
     </>
   );

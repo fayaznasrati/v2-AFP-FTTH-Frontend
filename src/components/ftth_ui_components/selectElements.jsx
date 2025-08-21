@@ -31,38 +31,28 @@ export default function SingleSelect({
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const containerRef = useRef();
 
-  // Close dropdown if clicked outside
+
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target)
-      ) {
-        setIsOpen(false);
+    const filtered = options.filter((option) =>
+      option?.label?.toLowerCase().includes(search.toLowerCase())
+    );
+    setFilteredOptions(filtered);
+
+    setHighlightedIndex(null);
+  }, [search, options]);
+
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+        setOpenDropdown(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Filter items by search
-  const filteredItems = items.filter((item) =>
-    getLabel(item).toLowerCase().includes(inputValue.toLowerCase())
-  );
 
-  const selectItem = (item) => {
-    setSelectedItem(item);
-    onChange(item);
-    setInputValue("");
-    setIsOpen(false);
-  };
-
-  const clearSelection = () => {
-    setSelectedItem(null);
-    onChange(null);
-  };
-
-  // Keyboard navigation
   const handleKeyDown = (e) => {
     if (!isOpen) return;
 
