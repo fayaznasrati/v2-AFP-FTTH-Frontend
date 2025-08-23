@@ -18,8 +18,8 @@ function Button({
   height = "h-10",
 }) {
   // Base styles
-  let baseClasses = `flex items-center justify-center gap-2 font-medium rounded-lg 
-    shadow-md transition-all duration-300 ${width} ${height} px-4`;
+  let baseClasses = `flex items-center justify-center gap-2 font-medium rounded-[8px] 
+    shadow-md transition-all duration-300 ${width} ${height} px-4 py-3`;
 
   // Default styles
   let colorClasses = "";
@@ -34,7 +34,7 @@ function Button({
     colorClasses = `${bg} text-white`;
   } else {
     // Solid button
-    colorClasses = `${bg} text-white hover:opacity-90`;
+    colorClasses = `${bg} text-white hover:bg-primary3`;
   }
 
   // Success & Error overrides
