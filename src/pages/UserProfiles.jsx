@@ -12,6 +12,7 @@ import Button from "../components/ftth_ui_components/Button";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import Checkbox from "../components/ftth_ui_components/Checkbox";
 import Switch from "../components/ftth_ui_components/Switch";
+import Avatar from "../components/ftth_ui_components/Avatar";
 
 export default function UserProfiles() {
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -32,7 +33,7 @@ export default function UserProfiles() {
       lastName: "Davis",
       address: { city: "SF" },
     },
-  ]
+  ];
   const options = [
     { value: "option1", label: "Option 1" },
     { value: "option2", label: "Option 2" },
@@ -142,7 +143,16 @@ export default function UserProfiles() {
       />
       <Checkbox
         value={isChecked}
-        variant="filled"
+        variant="blank"
+        onChange={(e) => {
+          console.log("from onchange", e);
+          setIsChecked(e);
+        }}
+        size="lg"
+      />
+      <Checkbox
+        value={isChecked}
+        // variant="blank"
         onChange={(e) => {
           console.log("from onchange", e);
           setIsChecked(e);
@@ -159,6 +169,18 @@ export default function UserProfiles() {
           setIsChecked(e);
         }}
       />
+      <Avatar
+        src="https://randomuser.me/api/portraits/women/2.jpg"
+        size="lg"
+        fallback="MS"
+        // variant="square"
+        badge={{
+          content: "NEW",
+          color: "#22c55e",
+          position: "bottom-left",
+        }}
+      />
+
       <Switch
         color="green"
         size="sm"
@@ -166,6 +188,25 @@ export default function UserProfiles() {
         onChange={(val) => console.log(val)}
       />
       <Switch color="primary1" size="md" value={isChecked} />
+
+      <div className="flex items-center gap-4 my-8 justify-between">
+        <Avatar
+          src="https://randomuser.me/api/portraits/women/2.jpg"
+          size="sm"
+          badge={{ color: "#22c55e" }}
+        />
+        <Avatar
+          src="https://randomuser.me/api/portraits/women/17.jpg"
+          size="md"
+          badge={{ content: "New", color: "#3b82f6" }}
+        />
+        <Avatar
+          // variant="square"
+          src="https://randomuser.me/api/portraits/women/11.jpg"
+          size="md"
+          badge={{ content: "VIP", position: "top-right", color: "#f97316" }}
+        />
+      </div>
       <PageBreadcrumb pageTitle="Profile" />
       <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6">
         <h3 className="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-7">
@@ -176,7 +217,6 @@ export default function UserProfiles() {
           <UserInfoCard />
           <UserAddressCard />
         </div>
-    
       </div>
     </>
   );
