@@ -80,7 +80,7 @@ export default function Avatar({
         <img
           src={src}
           alt={alt}
-          className={`object-cover w-full h-full ${variantClasses[variant]}  shadow-lg shadow-gray-400`}
+          className={`object-cover w-full h-full ${variantClasses[variant]}  shadow-lg shadow-gray-400 dark:shadow-gray-700`}
           onError={(e) => {
             e.target.style.display = "none"; // hide broken image
           }}

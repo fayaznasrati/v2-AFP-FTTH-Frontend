@@ -56,7 +56,7 @@ function Switch({
         ${
           value
             ? `${activeColor} ring-2 ring-primary1/40`
-            : "bg-white dark:bg-gray-500 border border-primary1"
+            : "bg-white dark:bg-gray-800 border border-primary1"
         }
       `}
     >
